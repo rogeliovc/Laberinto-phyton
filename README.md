@@ -1,5 +1,5 @@
 # Laberinto-phyton
-link repo: https://github.com/rogeliovc/Laberinto-phyton/edit/main
+link repo: https://github.com/rogeliovc/Laberinto-phyton
 
 integrantes:
 Rogelio Valdez cuevas
