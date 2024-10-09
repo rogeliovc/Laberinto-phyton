@@ -1,9 +1,9 @@
 # Laberinto-phyton
-link repo: 
+link repo: https://github.com/rogeliovc/Laberinto-phyton/edit/main
 
 integrantes:
 Rogelio Valdez cuevas
-Osiris 
+Osiris Josue Carrillo Galvan
 
 Objetivos
 
@@ -19,15 +19,14 @@ Generales:
 
 Particulares:
 
-opcion 1
+Rogelio Valdez Cuevas:
 1- Implementar el algoritmo de programación dinámica y exploración recursiva que permita recorrer el laberinto desde la entrada hasta la salida, gestionando las condiciones de éxito  o fallo.
 
 2- Desarrollar las funcionalidades especiales del laberinto, como las celdas de teletransporte y celdas con acertijos, de manera que se integren en el flujo de resolución del laberinto.
 
 3- Optimizar el algoritmo de resolución para garantizar que la búsqueda del camino sea eficiente, considerando las reglas dinámicas impuestas.
 
-opcion 2
-
+Osiris Josue Carrillo Galvan:
 1- Desarrollar una interfaz gráfica o representación visual del laberinto que permita a los usuarios observar el proceso de resolución en tiempo real, incluyendo la división del laberinto en secciones y las interacciones con celdas especiales.
 
 2- Implementar y gestionar la presentación de acertijos y las interacciones del usuario en las celdas que requieren resolución de problemas, asegurando que estas celdas respondan correctamente a las respuestas que introduzca usuario.
