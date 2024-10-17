@@ -1,0 +1,110 @@
+import tkinter as tk
+from tkinter import simpledialog, messagebox
+import time
+
+laberinto = [
+    [0, 0, 1, 0, 1, 1, 0, 1],
+    [1, 0, 1, 0, 1, 0, 0, 1],
+    [0, 0, 0, 0, 0, 1, 1, 1],
+    [1, 1, 1, 1, 0, 1, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0],
+    [1, 1, 3, 0, 1, 1, 4, 1], 
+    [1, 1, 0, 111, 0, 0, 0, 0],  
+    [1, 1, 1, 1, 1, 0, 0, 2]  
+]
+
+n = len(laberinto)
+memo = [[-1 for _ in range(n)] for _ in range(n)]
+movimientos = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+direcciones = ["Derecha", "Abajo", "Izquierda", "Arriba"]
+
+root = tk.Tk()
+root.title("Laberinto GUI")
+celdas = [[None for _ in range(n)] for _ in range(n)]
+
+for i in range(n):
+    for j in range(n):
+        color = "white" if laberinto[i][j] == 0 else "black"
+        if laberinto[i][j] == 2:
+            color = "green"
+        elif laberinto[i][j] == 3:
+            color = "purple"
+        elif laberinto[i][j] == 4:
+            color = "orange"
+        elif laberinto[i][j] == 111:
+            color = "blue"
+        celdas[i][j] = tk.Label(root, width=4, height=2, bg=color, borderwidth=1, relief="solid")
+        celdas[i][j].grid(row=i, column=j, sticky="nsew")
+
+etiqueta_movimiento = tk.Label(root, text="Movimientos:", fg="blue")
+etiqueta_movimiento.grid(row=n, column=1, columnspan=n-1, sticky="w")
+
+def es_valido(x, y):
+    return 0 <= x < n and 0 <= y < n and laberinto[x][y] != 1
+
+def actualizar_celda(x, y, color, movimiento=""):
+    celdas[x][y].config(bg=color)
+    etiqueta_movimiento.config(text=f"Movimientos: {movimiento}")
+    root.update()
+    time.sleep(0.2)
+
+def celda_trivia():
+    while True:
+        respuesta = simpledialog.askstring("Pregunta", "¿Cuál es la capital de Francia?")
+        if respuesta and respuesta.lower() == "paris":
+            return True
+        else:
+            messagebox.showinfo("Error", "Respuesta incorrecta. Intenta de nuevo.")
+
+def resolver_laberinto(x, y):
+    if laberinto[x][y] == 2:
+        actualizar_celda(x, y, "green", "Salida encontrada")
+        return True
+    
+    if memo[x][y] != -1:
+        return memo[x][y]
+    
+    if laberinto[x][y] == 3: 
+        for i in range(n):
+            for j in range(n):
+                if laberinto[i][j] == 4:
+                    x, y = i, j
+                    actualizar_celda(x, y, "orange", "Teletransportado")
+                    break
+    elif laberinto[x][y] == 4: 
+        for i in range(n):
+            for j in range(n):
+                if laberinto[i][j] == 3:
+                    x, y = i, j
+                    actualizar_celda(x, y, "purple", "Teletransportado")
+                    break
+    elif laberinto[x][y] == 111:  
+        celda_trivia()  
+    
+    memo[x][y] = 0  
+    actualizar_celda(x, y, "yellow", "Explorando")
+    
+    for index, (dx, dy) in enumerate(movimientos):
+        nx, ny = x + dx, y + dy
+        movimiento = direcciones[index]
+        if es_valido(nx, ny):
+            if resolver_laberinto(nx, ny):
+                memo[x][y] = 1
+                actualizar_celda(x, y, "cyan", f"{movimiento}: con paso")
+                return True
+            else:
+                actualizar_celda(x, y, "yellow", f"{movimiento}: sin paso")
+    
+    actualizar_celda(x, y, "red", "Sin salida")
+    return False
+
+def iniciar_solucion():
+    if resolver_laberinto(0, 0):
+        tk.Label(root, text="Camino encontrado!", fg="green").grid(row=n+1, column=1, columnspan=n-1)
+    else:
+        tk.Label(root, text="No se encontró un camino.", fg="red").grid(row=n+1, column=1, columnspan=n-1)
+
+boton_iniciar = tk.Button(root, text="Iniciar", command=iniciar_solucion)
+boton_iniciar.grid(row=n+1, column=0, sticky="w")
+
+root.mainloop()
