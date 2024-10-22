@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 import time
-import winsound  # Esto es para los efectos de sonido, aunque solo funciona en Windows
 
 # Aquí definimos el laberinto. Usamos una matriz 8x8 donde 0 es camino, 1 es pared, 
 # 2 es la salida, 111 y 112 son celdas de trivia, 3 y 4 son teletransportes.
@@ -97,12 +96,10 @@ def celda_trivia(valor):
         if valor == 111:
             respuesta = simpledialog.askstring("Pregunta", "¿Cuál es la capital de Francia?")
             if respuesta and respuesta.lower() == "paris":
-                winsound.Beep(600, 150)  # Sonido al acertar
                 return True
         elif valor == 112:
             respuesta = simpledialog.askstring("Pregunta", "¿Un algoritmo es una serie de pasos lógicos y finitos para resolver un problema?")
             if respuesta and respuesta.lower() in ["verdadero", "true"]:
-                winsound.Beep(600, 150)  # Sonido al acertar
                 return True
         messagebox.showinfo("Error", "Respuesta incorrecta. Intenta de nuevo.")
 
@@ -121,11 +118,9 @@ def resolver_laberinto(x, y):
     if laberinto[x][y] == 3:
         x, y = teleport_4
         actualizar_celda(x, y, "#4682b4", "Teletransportado")
-        winsound.Beep(800, 150)
     elif laberinto[x][y] == 4:
         x, y = teleport_3
         actualizar_celda(x, y, "#4682b4", "Teletransportado")
-        winsound.Beep(800, 150)
     elif laberinto[x][y] == 111 or laberinto[x][y] == 112:
         celda_trivia(laberinto[x][y])
     elif (x, y) == unlock_key_cell:
